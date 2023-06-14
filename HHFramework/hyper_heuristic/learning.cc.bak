@@ -1,0 +1,67 @@
+/*
+ * =====================================================================================
+ *
+ *       Filename:  learning.cc
+ *
+ *    Description:  
+ *
+ *        Version:  1.0
+ *        Created:  16/03/15 12:25:45
+ *       Revision:  none
+ *       Compiler:  gcc
+ *
+ *         Author:  YOUR NAME (), 
+ *        Company:  
+ *
+ * =====================================================================================
+ */
+
+#include "nsga_config.h"
+#include "stdlib.h"
+#include <iostream>
+#include <fstream>
+
+using namespace std;
+
+
+int Learning(Swarms* sw_pt, Swarms* sw_cp, int change_alg, int change_cro, float* learn_val, 
+        int* learn_time, double gen_time, int num_testcase)
+{
+    // Update the new value
+    int strategy = change_alg * CRO_NUM + change_cro;
+    int g_count = 0;
+    //int m_value = sw_pt->batch[SWARMSIZE - 1];
+    for (int i = 0; i < sw_pt->range; i++)
+    {
+        if (sw_pt->newgen[i] == 1)
+        {
+            //g_count += m_value - sw_pt->batch[i];
+            g_count += 1;
+        }
+    }
+
+    learn_val[strategy] = g_count; 
+
+
+    // Select the best strategy
+    int max = (int)(learn_val[0]); // / learn_time[0];
+    int num = 0;
+    for (int i = 1; i < STR; i++) 
+    {
+        //if (learn_time[i] == 0) continue;
+
+        int temp = (int)(learn_val[i]);// / learn_time[i];
+        if (temp > max) 
+        {
+            max = temp;
+            num = i;
+        }
+    }
+
+    if (learn_val[num] == 1 || learn_val[num] == 0)
+    {
+        num = (strategy + 1) % STR;
+    }
+
+    return num;
+}

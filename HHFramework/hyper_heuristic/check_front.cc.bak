@@ -1,0 +1,42 @@
+/*
+ * =====================================================================================
+ *
+ *       Filename:  check_front.cc
+ *
+ *    Description:  
+ *
+ *        Version:  1.0
+ *        Created:  10/29/14 11:36:48
+ *       Revision:  none
+ *       Compiler:  gcc
+ *
+ *         Author:  YOUR NAME (), 
+ *        Company:  
+ *
+ * =====================================================================================
+ */
+
+#include "nsga_config.h"
+#include <iostream>
+
+using namespace std;
+
+int Check_front(Swarms *sw_pt, int num_testcase)
+{
+    int count_front = 1;
+    
+    for (int i = 1; i < SWARMSIZE * 2; i++)
+    {
+        int apsc = sw_pt->apsc[0] > sw_pt->apsc[i] ? 0 : i;
+        int exetime = sw_pt->exetime[0] < sw_pt->exetime[i] ? 0 : i;
+
+        if (apsc != exetime)
+        {
+            sw_pt->efficient[i] = 1;
+            count_front++;
+        }
+        
+    }
+    
+    return count_front;
+}

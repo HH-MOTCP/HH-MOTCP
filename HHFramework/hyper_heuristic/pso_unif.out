@@ -1,0 +1,50 @@
+The number 1 test suite
+
+test cases number: 3053
+code lines:        11876
+frint set:  2
+0.999194  0.0317354
+0.999193  0.0289254
+
+EXE time: 17.29
+The number 2 test suite
+
+test cases number: 3461
+code lines:        11876
+frint set:  5
+0.999307  0.0249119
+0.999307  0.023382
+0.999303  0.0229099
+0.999301  0.0218308
+0.999288  0.0195298
+
+EXE time: 21.67
+The number 3 test suite
+
+test cases number: 1431
+code lines:        11876
+frint set:  3
+0.998346  0.0214839
+0.998345  0.01864
+0.998344  0.017863
+
+EXE time: 10.6
+The number 4 test suite
+
+test cases number: 1388
+code lines:        11876
+frint set:  1
+0.998247  0.0234828
+
+EXE time: 9.76
+The number 5 test suite
+
+test cases number: 2389
+code lines:        11876
+frint set:  4
+0.999004  0.0410495
+0.999003  0.0409873
+0.999  0.0214033
+0.998996  0.0199432
+
+EXE time: 27.07

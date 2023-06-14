@@ -1,0 +1,102 @@
+/*
+ * =====================================================================================
+ *
+ *       Filename:  init_ind.cc
+ *
+ *    Description:  
+ *
+ *        Version:  1.0
+ *        Created:  06/23/14 09:03:48
+ *       Revision:  none
+ *       Compiler:  gcc
+ *
+ *         Author:  YOUR NAME (), 
+ *        Company:  
+ *
+ * =====================================================================================
+ */
+
+#include "nsga_config.h"
+#include <iostream>
+//#include <rand.h>
+
+using namespace std;
+
+void Init_sequence(int *temp_sequence, int gen_num)
+{
+    for (int i = 0; i < gen_num; i++)
+    {
+        temp_sequence[i] = i;
+    }
+    return;
+}
+
+void Revert_sequence(int *temp_sequence, int gen_num)
+{
+    int count = 0;
+    for (int i = gen_num -1; i >= 0; i--)
+    {
+        temp_sequence[count] = i;
+        count++;
+    }
+    return;
+}
+
+void Shuffle(int *temp_sequence, int gen_num, unsigned int loop_count)
+{
+    srand((unsigned int)time(0) * loop_count);
+    for (int i = gen_num - 1; i > 0; i--)
+    {
+        int rand_num = rand()%i;
+        int temp = temp_sequence[i];
+        temp_sequence[i] = temp_sequence[rand_num];
+        temp_sequence[rand_num] = temp;
+    }
+
+    return;
+}
+
+void Initial_individuals(int *paritcle, int num_testcase, int code_line)
+{
+    for (int i = 2; i < SWARMSIZE; i++)
+    {//Initial the particle & speed  
+        
+        Init_sequence(&(particle[i * num_testcase]), num_testcase);
+        //Revert_sequence(&(sw->particle[i * MAXGENE]), gen_num);
+        Shuffle(&(particle[i * num_testcase]), num_testcase, i);
+    }
+    
+    Init_sequence(&(particle[0]), num_testcase);
+    Init_sequence(&(particle[num_testcase]), num_testcase);
+    Revert_sequence(&(particle[num_testcase]), num_testcase);
+      
+    for (int i = 0; i < SWARMSIZE; i++)
+    {
+        sw->apsc[i] = (float)MIN;
+        sw->exetime[i] = (float)MAX;
+        sw->effnum[i] = 0;
+        sw->efficient[i] = 0;
+        sw->distance[i] = (float)MAX;
+    }
+    
+    /*  
+    for (int i = 0; i < SWARMSIZE; i++)
+    {
+        //for (int j = 0; j < MAXGENE; j++)
+        //{
+        //    sw->pbest[i * MAXGENE + j] = sw->particle[i * MAXGENE + j];
+        //}
+        sw->papsc[i] = (float)MIN;
+        sw->pexetime[i] = (float)MAX;
+    }
+    
+    for (int i = 0; i < ARCHSIZE; i++)
+    {
+        sw->EAapsc[i] = (float)MIN;
+        sw->EAexetime[i] = (float)MAX;
+        sw->EAefficient[i] = 0;
+    }
+    sw->EAlen = 0;
+    */
+    return;
+}

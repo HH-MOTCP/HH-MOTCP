@@ -1,0 +1,72 @@
+
+#ifndef _NSGA_CONFIG_H_
+#define _NSGA_COFNIG_H_
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+#include <time.h>
+#include <string.h>
+#include <sstream>
+#include <iostream>
+
+using namespace std;
+
+
+#define OUTPUT  
+#define TCP         
+#define ALG    
+#define TYPE      
+#define CRO_NUM        6 
+#define ALG_NUM        3     
+#define STR            (CRO_NUM * ALG_NUM)
+
+#define SWARMSIZE      500
+#define GENERATION     10000
+#define SUITENUM       1
+#define MIN            1e-6
+#define MAX            1000000
+#define MUTRATE        0.01 
+#define CRORATE        0.1   
+
+struct Swarms 
+{
+    int    *particle;
+    float  *apsc;
+    float  *exetime;
+    int    *effnum;
+    float  *disapsc;
+    float  avgapsc;
+    float  *disexet;
+    float  avgexetime;
+    float  *distance;
+    float  avgdistance;
+    bool   *efficient;
+    bool   *newgen;
+    int    *batch;
+    int    range;
+};
+
+struct Schema
+{
+    int    *matrix_map;
+    int    map_size;
+    int    *schema;
+    int    sch_size;
+    float  *sch_value;
+    int    *sch_table;
+    bool   *sch_chose;
+};
+
+extern void Init_sequence(int *temp_sequence, int gen_num);
+extern void Init_sequence_binary(int *temp_sequence, int gen_num, int loop);
+extern void Shuffle(int *temp_sequence, int gen_num, unsigned int loop_count);
+extern int  Check(bool* max_cover, bool* mark_line, int code_line);
+
+extern string prog_name;
+extern string input_path;
+extern string cover_file;
+extern string eet_file;
+extern string output_path;
+
+#endif

@@ -1,0 +1,116 @@
+/*
+ * =====================================================================================
+ *
+ *       Filename:  learning.cc
+ *
+ *    Description:  
+ *
+ *        Version:  1.0
+ *        Created:  16/03/15 12:25:45
+ *       Revision:  none
+ *       Compiler:  gcc
+ *
+ *         Author:  YOUR NAME (), 
+ *        Company:  
+ *
+ * =====================================================================================
+ */
+
+#include "nsga_config.h"
+#include "stdlib.h"
+#include "eliter_selection.h"
+#include <iostream>
+#include <fstream>
+
+using namespace std;
+
+
+int Learning(Swarms* sw_pt, Swarms* sw_cp, int change_alg, int change_cro, float* learn_val, 
+        int* learn_time, double gen_time, int num_testcase)
+{
+    for (int i = 0; i < SWARMSIZE; i++)
+    {
+        sw_cp->apsc[i + SWARMSIZE] = sw_pt->apsc[i];
+        sw_cp->exetime[i + SWARMSIZE] = sw_pt->exetime[i];
+        sw_cp->distance[i + SWARMSIZE] = sw_pt->distance[i];
+
+        sw_cp->newgen[i] = 0;
+        sw_cp->newgen[i + SWARMSIZE] = 1;
+    }
+
+    int newrange = Eliter_selection(sw_cp, num_testcase);
+
+    int g_count = 0;
+    int m_value = sw_cp->batch[SWARMSIZE - 1];
+    
+    //cout << "batch: " << m_value << endl;
+
+    for (int i = 0; i < SWARMSIZE; i++)
+    {
+        if (sw_cp->newgen[i] == 1)
+        {
+            g_count += m_value - sw_cp->batch[i];
+        }
+    }
+
+    // Update the new result
+    int strategy = change_alg * CRO_NUM + change_cro;
+    /*
+    int g_count = 0;
+    //int m_value = sw_pt->batch[SWARMSIZE - 1];
+    for (int i = 0; i < sw_pt->range; i++)
+    {
+        if (sw_pt->newgen[i] == 1)
+        {
+            //g_count += m_value - sw_pt->batch[i];
+            g_count += 1;
+        }
+    }
+    */
+
+    //cout << sw_pt->range << "  " << g_count << endl;
+
+    learn_val[strategy] = g_count; 
+    //learn_val[strategy] = g_count * 100 / sw_pt->range; 
+    //learn_time[strategy] += 1;
+
+    // Get the next best strategy
+    //int max = (int)(learn_val[STR - 1]); // / learn_time[0];
+    //int num = STR - 1;
+    int max = (int)(learn_val[0]);
+    int num = 0;
+    //for (int i = STR - 2; i >= 0; i--) 
+    for (int i = 1; i < STR; i++) 
+    {
+        //if (learn_time[i] == 0) continue;
+
+        int temp = (int)(learn_val[i]);
+        //int temp = (int)(learn_val[i]);// * 100 / learn_time[i];
+        if (temp >= max) 
+        {
+            max = temp;
+            num = i;
+        }
+    }
+
+    cout << "------------------" << endl;
+    cout << "first * " << num << " *" << endl;
+    if (learn_val[num] == 1 || learn_val[num] == 0)
+    {
+        num = (strategy + 1) % STR;
+    }
+    cout << "check * " << num << " *" << endl;
+    cout << "------------------" << endl;
+
+    for (int i = 0; i < STR; i++)
+    {
+        cout << "(" << i << ") ";
+        cout << "  " << learn_val[i];
+        if (i == num) cout << "  <";
+        cout << endl;
+    }
+    
+    //getchar();
+
+    return num;
+}

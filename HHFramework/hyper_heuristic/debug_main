@@ -1,0 +1,7 @@
+#! /bin/sh
+
+# nvcc -G main_p.cu read_file.cc init_ind.cc cal_fitness_kernel.cu ea_crossover_parallel.cu -arch=sm_20 -g -o main_p.out -I/usr/local/C/common/inc/ -L/usr/local/C/lib/
+
+nvcc -G main_p.cu nsga_config.cc check_file.cc read_file.cc init_ind.cc cal_fitness_kernel.cu nsga_crossover.cc eliter_selection.cc nsga_mutuation.cc check_front.cc -arch=sm_20 -g -O2 -o main_p.out -I/usr/local/C/common/inc/ -L/usr/local/C/lib/
+
+
